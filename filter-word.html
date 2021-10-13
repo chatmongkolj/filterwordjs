@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+
+    <h2>Javascript Filter Word</h2>
+
+    <p>Enter word and cick the button to filter word</p>
+
+    <p><input type="text" id="wordToCheck"></p>
+    <button onclick="myFunction()">Filter Word</button>
+
+    <p id="Result"></p>
+
+    <script>
+
+        function myFunction() {
+
+            if (document.getElementById("wordToCheck").value == 0) {
+                alert("Please enter the word for filter");
+                return false;
+            }
+            const Http = new XMLHttpRequest();
+            const url = 'https://api.publicapis.org/categories';
+            Http.open("GET", url, true);
+            Http.send();
+            Http.onreadystatechange = (e) => {
+                
+               
+                const words = JSON.parse(Http.responseText);  
+                const findWord = words.filter(fword => fword.includes(document.getElementById("wordToCheck").value));
+                var result =  JSON.stringify(findWord);
+                if(result=='[]'){
+                    result = 'Data not found';
+                }
+                document.getElementById("Result").innerHTML = result;
+                
+                
+            }
+        }
+    </script>
+
+</body>
+
+</html>
